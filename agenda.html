@@ -4,33 +4,38 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Estoicismo Digital - Agenda Diaria</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
-<script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Noto+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
       theme: {
         extend: {
           colors: {
-            primary: "#6B7A6A",
-            "background-light": "#F8F8F4",
-            "background-dark": "#1A1A18",
-            "surface-light": "#FFFFFF",
-            "surface-dark": "#2C2C2A",
-            "text-light-primary": "#333333",
-            "text-dark-primary": "#E0E0DC",
-            "text-light-secondary": "#6B7A6A",
-            "text-dark-secondary": "#A3B8A2",
-            "border-light": "#EAEAE0",
-            "border-dark": "#3D3D3A",
+            primary: "#d46911",
+            "background-light": "#f8f7f6",
+            "background-dark": "#221810",
+            "text-light-primary": "#3C3633",
+            "text-dark-primary": "#f8f7f6",
+            "text-light-secondary": "#897361",
+            "text-dark-secondary": "#a5978b",
+            "card-light": "#ffffff",
+            "card-dark": "#2a1e14",
+            "border-light": "#e5e0da",
+            "border-dark": "#4a3c30",
           },
           fontFamily: {
             display: ["Newsreader", "serif"],
-            sans: ["Inter", "sans-serif"],
+            sans: ["Noto Sans", "sans-serif"],
           },
           borderRadius: {
-            DEFAULT: "0.75rem",
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
           },
         },
       },
@@ -43,142 +48,147 @@
   </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-sans">
-<div class="container mx-auto max-w-md p-4 pb-24">
-<header class="flex justify-between items-center mb-6 pt-4">
-<h1 class="text-4xl font-bold text-text-light-primary dark:text-text-dark-primary font-display">Agenda Diaria</h1>
-<button onclick="toggleDarkMode()" class="text-text-light-secondary dark:text-text-dark-secondary p-2 hover:bg-surface-light dark:hover:bg-surface-dark rounded-full transition-colors">
-<span class="material-icons" id="theme-icon">dark_mode</span>
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden" style='font-family: "Noto Sans", sans-serif;'>
+<!-- Top App Bar -->
+<div class="flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10 border-b border-border-light dark:border-border-dark">
+<div class="text-text-light-primary dark:text-text-dark-primary flex size-12 shrink-0 items-center justify-start">
+<a href="index.html"><span class="material-symbols-outlined">arrow_back</span></a>
+</div>
+<h2 class="text-text-light-primary dark:text-text-dark-primary text-lg font-bold leading-tight tracking-[-0.015em] font-display flex-1 text-center">Agenda Diaria</h2>
+<div class="flex w-12 items-center justify-end">
+<button onclick="toggleDarkMode()" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 bg-transparent text-text-light-primary dark:text-text-dark-primary gap-2 text-base font-bold leading-normal tracking-[0.015em] min-w-0 p-0">
+<div class="text-text-light-primary dark:text-text-dark-primary">
+<span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+</div>
 </button>
-</header>
+</div>
+</div>
 
-<!-- Selector de Fecha -->
-<section class="mb-6 bg-surface-light dark:bg-surface-dark p-5 rounded-2xl border border-border-light dark:border-border-dark">
-<div class="flex items-center justify-between mb-4">
-<button onclick="changeDay(-1)" class="p-2 hover:bg-background-light dark:hover:bg-background-dark rounded-lg transition-colors">
-<span class="material-icons text-text-light-secondary dark:text-text-dark-secondary">chevron_left</span>
+<!-- Headline Text (Date) -->
+<div class="flex items-center justify-between px-4 pt-5 pb-3">
+<button onclick="changeDay(-1)" class="flex items-center justify-center h-10 w-10 rounded-full text-text-light-primary dark:text-text-dark-primary bg-transparent hover:bg-card-light dark:hover:bg-card-dark transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
 </button>
-<div class="flex flex-col items-center">
-<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-1">Fecha seleccionada</p>
-<input type="date" id="date-selector" class="text-lg font-bold text-text-light-primary dark:text-text-dark-primary bg-transparent border-none text-center cursor-pointer font-display" onchange="loadAgenda()">
-</div>
-<button onclick="changeDay(1)" class="p-2 hover:bg-background-light dark:hover:bg-background-dark rounded-lg transition-colors">
-<span class="material-icons text-text-light-secondary dark:text-text-dark-secondary">chevron_right</span>
+<h2 class="text-text-light-primary dark:text-text-dark-primary tracking-light text-[28px] font-bold leading-tight text-center font-display" id="date-display">MARTES, 16 DE JULIO</h2>
+<button onclick="changeDay(1)" class="flex items-center justify-center h-10 w-10 rounded-full text-text-light-primary dark:text-text-dark-primary bg-transparent hover:bg-card-light dark:hover:bg-card-dark transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
 </button>
 </div>
-<div class="flex justify-center gap-2">
-<button onclick="setToday()" class="px-4 py-2 bg-primary/10 dark:bg-primary/20 text-primary rounded-lg text-sm font-medium hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+<input type="date" id="date-selector" class="hidden" onchange="loadAgenda()">
+
+<div class="px-4 pb-4 flex gap-2 justify-center">
+<button onclick="setToday()" class="flex items-center justify-center py-2 px-4 rounded-full text-sm font-semibold transition-colors bg-primary/20 dark:bg-primary/30 text-primary border border-primary/30">
 Hoy
 </button>
-<button onclick="clearDay()" class="px-4 py-2 bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium hover:bg-red-500/20 dark:hover:bg-red-500/30 transition-colors">
+<button onclick="clearDay()" class="flex items-center justify-center py-2 px-4 rounded-full text-sm font-semibold transition-colors bg-transparent text-text-light-secondary dark:text-text-dark-secondary border border-border-light dark:border-border-dark hover:bg-red-500/10">
 Limpiar día
 </button>
 </div>
-</section>
 
 <!-- Franjas Horarias -->
-<section class="space-y-4 mb-8">
+<div class="space-y-4 px-4 pb-24">
 <!-- Mañana 9:00 - 12:00 -->
-<div class="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 p-5 rounded-2xl border border-amber-200 dark:border-amber-800">
-<div class="flex items-center justify-between mb-3">
+<div>
+<div class="flex items-center justify-between pb-3">
 <div class="flex items-center gap-2">
-<span class="material-icons text-amber-600 dark:text-amber-400">wb_sunny</span>
-<h2 class="text-lg font-bold text-text-light-primary dark:text-text-dark-primary font-display">Mañana</h2>
-<span class="text-sm text-text-light-secondary dark:text-text-dark-secondary">(9:00 - 12:00)</span>
+<span class="material-symbols-outlined text-amber-600 dark:text-amber-500">wb_sunny</span>
+<h2 class="text-text-light-primary dark:text-text-dark-primary text-[22px] font-bold leading-tight tracking-[-0.015em] font-display">Mañana</h2>
+<span class="text-sm text-text-light-secondary dark:text-text-dark-secondary font-sans">(9:00 - 12:00)</span>
 </div>
-<button onclick="addTask('morning')" class="p-1 hover:bg-amber-100 dark:hover:bg-amber-900/50 rounded-lg transition-colors">
-<span class="material-icons text-amber-600 dark:text-amber-400 text-xl">add_circle</span>
+<button onclick="addTask('morning')" class="flex items-center justify-center h-8 w-8 bg-primary text-white rounded-full shadow-sm hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-xl">add</span>
 </button>
 </div>
-<div id="morning-tasks" class="space-y-2">
+<div id="morning-tasks" class="space-y-3">
 <!-- Tasks will be loaded here -->
 </div>
 </div>
 
 <!-- Mediodía 12:00 - 15:00 -->
-<div class="bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 p-5 rounded-2xl border border-yellow-200 dark:border-yellow-800">
-<div class="flex items-center justify-between mb-3">
+<div>
+<div class="flex items-center justify-between pb-3">
 <div class="flex items-center gap-2">
-<span class="material-icons text-yellow-600 dark:text-yellow-400">light_mode</span>
-<h2 class="text-lg font-bold text-text-light-primary dark:text-text-dark-primary font-display">Mediodía</h2>
-<span class="text-sm text-text-light-secondary dark:text-text-dark-secondary">(12:00 - 15:00)</span>
+<span class="material-symbols-outlined text-yellow-600 dark:text-yellow-500">light_mode</span>
+<h2 class="text-text-light-primary dark:text-text-dark-primary text-[22px] font-bold leading-tight tracking-[-0.015em] font-display">Mediodía</h2>
+<span class="text-sm text-text-light-secondary dark:text-text-dark-secondary font-sans">(12:00 - 15:00)</span>
 </div>
-<button onclick="addTask('noon')" class="p-1 hover:bg-yellow-100 dark:hover:bg-yellow-900/50 rounded-lg transition-colors">
-<span class="material-icons text-yellow-600 dark:text-yellow-400 text-xl">add_circle</span>
+<button onclick="addTask('noon')" class="flex items-center justify-center h-8 w-8 bg-primary text-white rounded-full shadow-sm hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-xl">add</span>
 </button>
 </div>
-<div id="noon-tasks" class="space-y-2">
+<div id="noon-tasks" class="space-y-3">
 <!-- Tasks will be loaded here -->
 </div>
 </div>
 
 <!-- Tarde 15:00 - 21:00 -->
-<div class="bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 p-5 rounded-2xl border border-orange-200 dark:border-orange-800">
-<div class="flex items-center justify-between mb-3">
+<div>
+<div class="flex items-center justify-between pb-3 pt-3">
 <div class="flex items-center gap-2">
-<span class="material-icons text-orange-600 dark:text-orange-400">wb_twilight</span>
-<h2 class="text-lg font-bold text-text-light-primary dark:text-text-dark-primary font-display">Tarde</h2>
-<span class="text-sm text-text-light-secondary dark:text-text-dark-secondary">(15:00 - 21:00)</span>
+<span class="material-symbols-outlined text-orange-600 dark:text-orange-500">wb_twilight</span>
+<h2 class="text-text-light-primary dark:text-text-dark-primary text-[22px] font-bold leading-tight tracking-[-0.015em] font-display">Tarde</h2>
+<span class="text-sm text-text-light-secondary dark:text-text-dark-secondary font-sans">(15:00 - 21:00)</span>
 </div>
-<button onclick="addTask('afternoon')" class="p-1 hover:bg-orange-100 dark:hover:bg-orange-900/50 rounded-lg transition-colors">
-<span class="material-icons text-orange-600 dark:text-orange-400 text-xl">add_circle</span>
+<button onclick="addTask('afternoon')" class="flex items-center justify-center h-8 w-8 bg-primary text-white rounded-full shadow-sm hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-xl">add</span>
 </button>
 </div>
-<div id="afternoon-tasks" class="space-y-2">
+<div id="afternoon-tasks" class="space-y-3">
 <!-- Tasks will be loaded here -->
 </div>
 </div>
 
 <!-- Noche 21:00 - 00:00 -->
-<div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-5 rounded-2xl border border-blue-200 dark:border-blue-800">
-<div class="flex items-center justify-between mb-3">
+<div>
+<div class="flex items-center justify-between pb-3 pt-3">
 <div class="flex items-center gap-2">
-<span class="material-icons text-blue-600 dark:text-blue-400">nightlight</span>
-<h2 class="text-lg font-bold text-text-light-primary dark:text-text-dark-primary font-display">Noche</h2>
-<span class="text-sm text-text-light-secondary dark:text-text-dark-secondary">(21:00 - 00:00)</span>
+<span class="material-symbols-outlined text-blue-600 dark:text-blue-500">nightlight</span>
+<h2 class="text-text-light-primary dark:text-text-dark-primary text-[22px] font-bold leading-tight tracking-[-0.015em] font-display">Noche</h2>
+<span class="text-sm text-text-light-secondary dark:text-text-dark-secondary font-sans">(21:00 - 00:00)</span>
 </div>
-<button onclick="addTask('night')" class="p-1 hover:bg-blue-100 dark:hover:bg-blue-900/50 rounded-lg transition-colors">
-<span class="material-icons text-blue-600 dark:text-blue-400 text-xl">add_circle</span>
+<button onclick="addTask('night')" class="flex items-center justify-center h-8 w-8 bg-primary text-white rounded-full shadow-sm hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-xl">add</span>
 </button>
 </div>
-<div id="night-tasks" class="space-y-2">
+<div id="night-tasks" class="space-y-3">
 <!-- Tasks will be loaded here -->
 </div>
 </div>
 
 <!-- Madrugada 00:00 - 02:00 -->
-<div class="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 p-5 rounded-2xl border border-indigo-200 dark:border-indigo-800">
-<div class="flex items-center justify-between mb-3">
+<div>
+<div class="flex items-center justify-between pb-3 pt-3">
 <div class="flex items-center gap-2">
-<span class="material-icons text-indigo-600 dark:text-indigo-400">dark_mode</span>
-<h2 class="text-lg font-bold text-text-light-primary dark:text-text-dark-primary font-display">Madrugada</h2>
-<span class="text-sm text-text-light-secondary dark:text-text-dark-secondary">(00:00 - 02:00)</span>
+<span class="material-symbols-outlined text-indigo-600 dark:text-indigo-500">bedtime</span>
+<h2 class="text-text-light-primary dark:text-text-dark-primary text-[22px] font-bold leading-tight tracking-[-0.015em] font-display">Madrugada</h2>
+<span class="text-sm text-text-light-secondary dark:text-text-dark-secondary font-sans">(00:00 - 02:00)</span>
 </div>
-<button onclick="addTask('latenight')" class="p-1 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 rounded-lg transition-colors">
-<span class="material-icons text-indigo-600 dark:text-indigo-400 text-xl">add_circle</span>
+<button onclick="addTask('latenight')" class="flex items-center justify-center h-8 w-8 bg-primary text-white rounded-full shadow-sm hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-xl">add</span>
 </button>
 </div>
-<div id="latenight-tasks" class="space-y-2">
+<div id="latenight-tasks" class="space-y-3">
 <!-- Tasks will be loaded here -->
 </div>
 </div>
 
 <!-- Descanso 02:00 - 09:00 -->
-<div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-5 rounded-2xl border border-purple-200 dark:border-purple-800">
-<div class="flex items-center justify-between mb-3">
+<div>
+<div class="flex items-center justify-between pb-3 pt-3">
 <div class="flex items-center gap-2">
-<span class="material-icons text-purple-600 dark:text-purple-400">hotel</span>
-<h2 class="text-lg font-bold text-text-light-primary dark:text-text-dark-primary font-display">Descanso</h2>
-<span class="text-sm text-text-light-secondary dark:text-text-dark-secondary">(02:00 - 09:00)</span>
+<span class="material-symbols-outlined text-purple-600 dark:text-purple-500">hotel</span>
+<h2 class="text-text-light-primary dark:text-text-dark-primary text-[22px] font-bold leading-tight tracking-[-0.015em] font-display">Descanso</h2>
+<span class="text-sm text-text-light-secondary dark:text-text-dark-secondary font-sans">(02:00 - 09:00)</span>
 </div>
-<button onclick="addTask('rest')" class="p-1 hover:bg-purple-100 dark:hover:bg-purple-900/50 rounded-lg transition-colors">
-<span class="material-icons text-purple-600 dark:text-purple-400 text-xl">add_circle</span>
+<button onclick="addTask('rest')" class="flex items-center justify-center h-8 w-8 bg-primary text-white rounded-full shadow-sm hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-xl">add</span>
 </button>
 </div>
-<div id="rest-tasks" class="space-y-2">
+<div id="rest-tasks" class="space-y-3">
 <!-- Tasks will be loaded here -->
 </div>
 </div>
-</section>
+</div>
 
 </div>
 
@@ -236,11 +246,25 @@ function changeDay(days) {
 function updateDateSelector() {
   const dateInput = document.getElementById('date-selector');
   dateInput.value = currentDate.toISOString().split('T')[0];
+  
+  // Update display date
+  const dateDisplay = document.getElementById('date-display');
+  const days = ['DOMINGO', 'LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'];
+  const months = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
+  
+  const dayName = days[currentDate.getDay()];
+  const dayNum = currentDate.getDate();
+  const monthName = months[currentDate.getMonth()];
+  
+  dateDisplay.textContent = `${dayName}, ${dayNum} DE ${monthName}`;
 }
 
 function loadAgenda() {
   const dateInput = document.getElementById('date-selector');
   currentDate = new Date(dateInput.value + 'T12:00:00');
+  
+  // Update display date
+  updateDateSelector();
   
   const dateKey = dateInput.value;
   const agendas = JSON.parse(localStorage.getItem('dailyAgendas') || '{}');
@@ -264,7 +288,7 @@ function renderTasks(period, tasks) {
   
   if (tasks.length === 0) {
     container.innerHTML = `
-      <p class="text-sm text-text-light-secondary dark:text-text-dark-secondary text-center py-2">
+      <p class="text-sm text-text-light-secondary dark:text-text-dark-secondary text-center py-2 font-sans">
         Sin tareas. Haz clic en + para añadir.
       </p>
     `;
@@ -272,26 +296,30 @@ function renderTasks(period, tasks) {
   }
   
   container.innerHTML = tasks.map((task, index) => `
-    <div class="bg-white dark:bg-surface-dark p-3 rounded-lg border border-border-light dark:border-border-dark flex items-center gap-3 group">
-      <input type="checkbox" 
-             ${task.completed ? 'checked' : ''} 
-             onchange="toggleTask('${period}', ${index})"
-             class="w-5 h-5 rounded text-primary focus:ring-primary">
-      <div class="flex-1">
-        <div class="flex items-center gap-2">
-          <input type="time" 
-                 value="${task.time}" 
-                 onchange="updateTaskTime('${period}', ${index}, this.value)"
-                 class="text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary bg-transparent border-none p-0 w-16">
-          <input type="text" 
-                 value="${task.task}" 
-                 onchange="updateTaskText('${period}', ${index}, this.value)"
-                 placeholder="Escribe tu tarea..."
-                 class="flex-1 text-sm text-text-light-primary dark:text-text-dark-primary bg-transparent border-none p-0 ${task.completed ? 'line-through opacity-60' : ''}">
+    <div class="flex items-center justify-between p-4 rounded-xl bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark shadow-sm group">
+      <div class="flex items-center gap-4 flex-1">
+        <div class="text-text-light-primary dark:text-text-dark-primary">
+          <input type="checkbox" 
+                 ${task.completed ? 'checked' : ''} 
+                 onchange="toggleTask('${period}', ${index})"
+                 class="w-5 h-5 rounded text-primary focus:ring-primary cursor-pointer">
+        </div>
+        <div class="flex-1">
+          <div class="flex items-center gap-2">
+            <input type="time" 
+                   value="${task.time}" 
+                   onchange="updateTaskTime('${period}', ${index}, this.value)"
+                   class="text-sm font-medium text-text-light-secondary dark:text-text-dark-secondary bg-transparent border-none p-0 w-16 cursor-pointer font-sans">
+            <input type="text" 
+                   value="${task.task}" 
+                   onchange="updateTaskText('${period}', ${index}, this.value)"
+                   placeholder="Escribe tu tarea..."
+                   class="flex-1 text-base font-bold text-text-light-primary dark:text-text-dark-primary bg-transparent border-none p-0 font-sans ${task.completed ? 'line-through opacity-60' : ''}">
+          </div>
         </div>
       </div>
-      <button onclick="deleteTask('${period}', ${index})" class="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-red-50 dark:hover:bg-red-900/20 rounded">
-        <span class="material-icons text-red-500 text-lg">delete</span>
+      <button onclick="deleteTask('${period}', ${index})" class="flex items-center justify-center h-10 w-10 rounded-full text-red-500 bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors opacity-0 group-hover:opacity-100">
+        <span class="material-symbols-outlined">delete</span>
       </button>
     </div>
   `).join('');
