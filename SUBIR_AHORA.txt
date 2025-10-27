@@ -1,0 +1,130 @@
+================================================================================
+          COMO SUBIR TU PROYECTO A NETLIFY - METODO MAS RAPIDO
+================================================================================
+
+Acabo de abrir tu panel de Netlify en el navegador.
+
+OPCION 1: ACTUALIZAR SITIO EXISTENTE (MAS RAPIDO - 1 MINUTO)
+================================================================
+
+En la pagina que se abrio (https://app.netlify.com/sites/fancy-dragon-323516/deploys):
+
+1. Haz clic en el boton "Deploys" en la barra superior
+2. Arrastra esta CARPETA COMPLETA al area que dice "Drag and drop"
+   Ruta de la carpeta: C:\Users\Usuario\.cursor\Estoicismo digital
+3. Espera 10-30 segundos
+4. LISTO! Tu sitio se actualiza en: https://fancy-dragon-323516.netlify.app/
+
+IMPORTANTE: Arrastra toda la carpeta, NO los archivos individuales.
+
+
+OPCION 2: DESPLIEGUE AUTOMATICO CON GITHUB (5 MINUTOS DE SETUP)
+================================================================
+
+Si quieres que en el futuro solo tengas que hacer "git push" y se actualice
+automaticamente, sigue estos pasos:
+
+PASO 1: Crear repositorio en GitHub
+------------------------------------
+1. Ve a: https://github.com/new
+2. Nombre del repositorio: estoicismo-digital
+3. Dejalo publico o privado (tu decides)
+4. NO marques "Initialize with README"
+5. Clic en "Create repository"
+
+PASO 2: Subir tu codigo a GitHub
+---------------------------------
+Ejecuta estos comandos en PowerShell (en esta carpeta):
+
+git remote add origin https://github.com/TU_USUARIO/estoicismo-digital.git
+git push -u origin main
+
+(Reemplaza TU_USUARIO con tu usuario de GitHub)
+
+PASO 3: Conectar Netlify con GitHub
+------------------------------------
+1. Ve a: https://app.netlify.com/sites/fancy-dragon-323516/settings/deploys
+2. En "Build settings", clic en "Link repository"
+3. Selecciona "GitHub"
+4. Busca y selecciona tu repositorio: estoicismo-digital
+5. Configuracion:
+   - Branch to deploy: main
+   - Build command: (dejar vacio)
+   - Publish directory: .
+6. Clic en "Deploy site"
+
+LISTO! Ahora cada vez que hagas:
+  git add .
+  git commit -m "Descripcion del cambio"
+  git push
+
+Tu sitio se actualizara automaticamente en Netlify.
+
+
+RESUMEN DE ARCHIVOS DE GIT YA CONFIGURADOS
+===========================================
+
+Ya he inicializado Git en tu proyecto:
+- Repositorio Git: LISTO
+- Commit inicial: HECHO (24 archivos)
+- Rama: main
+- Usuario configurado: Si
+
+Solo falta:
+1. Crear repositorio en GitHub
+2. Conectar con: git remote add origin ...
+3. Subir con: git push -u origin main
+
+
+SCRIPTS UTILES CREADOS
+=======================
+
+deploy.ps1          - Desplegar con un solo comando
+init-git.ps1        - Inicializar Git (ya ejecutado)
+subir-a-netlify.ps1 - Asistente interactivo (tiene problemas de encoding)
+
+
+ENLACES IMPORTANTES
+===================
+
+Tu sitio actual:
+https://fancy-dragon-323516.netlify.app/
+
+Panel de Netlify:
+https://app.netlify.com/sites/fancy-dragon-323516/
+
+Deploys:
+https://app.netlify.com/sites/fancy-dragon-323516/deploys
+
+Configuracion:
+https://app.netlify.com/sites/fancy-dragon-323516/settings/
+
+
+AYUDA RAPIDA
+============
+
+Para desplegar en el futuro (despues de configurar GitHub):
+
+.\deploy.ps1 "Descripcion del cambio"
+
+O manualmente:
+
+git add .
+git commit -m "Descripcion"
+git push
+
+
+¿NECESITAS AYUDA?
+=================
+
+Lee estos archivos para instrucciones detalladas:
+- README_DESPLIEGUE.md    - Guia principal
+- quick-start.md          - Inicio rapido
+- SETUP_GIT_NETLIFY.md    - Guia completa paso a paso
+
+
+================================================================================
+          METODO MAS RAPIDO: Arrastra la carpeta a Netlify
+================================================================================
+
+

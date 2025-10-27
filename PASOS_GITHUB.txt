@@ -1,0 +1,147 @@
+================================================================================
+     PASOS PARA SUBIR A GITHUB - Usuario: creditos2025ai-debug
+================================================================================
+
+He abierto tu pagina de GitHub. Ahora sigue estos pasos:
+
+PASO 1: CREAR REPOSITORIO
+==========================
+
+1. En la pagina que se abrio, haz clic en el boton verde "New" (arriba a la derecha)
+   O ve directamente a: https://github.com/new
+
+2. Configuracion del repositorio:
+   - Repository name: estoicismo-digital
+   - Description: Aplicacion web de estoicismo digital
+   - Public o Private: (tu eliges)
+   - NO marques "Add a README file"
+   - NO marques "Add .gitignore"
+   - NO marques "Choose a license"
+
+3. Haz clic en "Create repository"
+
+
+PASO 2: OBTENER TU TOKEN DE ACCESO (para autenticar)
+=====================================================
+
+Como estas autenticado con otra cuenta (unedmexicano2001-star), necesitas
+un token de acceso personal para la cuenta creditos2025ai-debug:
+
+1. Ve a: https://github.com/settings/tokens
+2. Clic en "Generate new token" -> "Generate new token (classic)"
+3. Note: "Netlify Estoicismo Digital"
+4. Expiration: 90 days (o el tiempo que prefieras)
+5. Selecciona estos permisos:
+   [x] repo (todos los sub-items)
+6. Clic en "Generate token"
+7. COPIA EL TOKEN (lo necesitaras en el siguiente paso)
+   IMPORTANTE: Solo se muestra una vez, guardalo en algun lugar seguro
+
+
+PASO 3: SUBIR EL CODIGO
+========================
+
+Una vez que tengas el repositorio creado y el token:
+
+Ejecuta estos comandos en PowerShell (en esta carpeta):
+
+git push -u origin main
+
+Cuando te pida credenciales:
+- Username: creditos2025ai-debug
+- Password: [PEGA EL TOKEN que copiaste, NO tu password de GitHub]
+
+
+ALTERNATIVA: USAR INTERFAZ WEB DE GITHUB
+=========================================
+
+Si los pasos anteriores son complicados, puedes:
+
+1. Ve a: https://github.com/creditos2025ai-debug/estoicismo-digital
+   (despues de crear el repo)
+2. Clic en "uploading an existing file"
+3. Arrastra todos los archivos de esta carpeta:
+   C:\Users\Usuario\.cursor\Estoicismo digital
+4. Commit changes
+
+Nota: Este metodo NO permite despliegue automatico posterior.
+
+
+PASO 4: CONECTAR NETLIFY CON GITHUB
+====================================
+
+Una vez que el codigo este en GitHub:
+
+1. Ve a: https://app.netlify.com/sites/fancy-dragon-323516/settings/deploys
+2. En "Build settings", clic en "Link repository"
+3. Selecciona "GitHub"
+4. Autoriza Netlify para acceder a tu cuenta de GitHub
+5. Selecciona el repositorio: estoicismo-digital
+6. Configuracion:
+   - Branch to deploy: main
+   - Build command: (dejar vacio)
+   - Publish directory: .
+7. Clic en "Save"
+8. Netlify hara el primer despliegue automaticamente
+
+
+LISTO! DESPLIEGUE AUTOMATICO CONFIGURADO
+=========================================
+
+Ahora cada vez que hagas cambios:
+
+git add .
+git commit -m "Descripcion del cambio"
+git push
+
+Tu sitio se actualizara automaticamente en:
+https://fancy-dragon-323516.netlify.app/
+
+
+SCRIPT DE AYUDA
+===============
+
+Tambien puedes usar:
+.\deploy.ps1 "Descripcion del cambio"
+
+Este script hace todo automaticamente (add, commit, push).
+
+
+ESTADO ACTUAL
+=============
+
+✅ Git inicializado
+✅ Commit inicial creado (24 archivos)
+✅ Rama main configurada
+✅ Remote configurado: https://github.com/creditos2025ai-debug/estoicismo-digital.git
+
+Falta:
+⏳ Crear repositorio en GitHub
+⏳ Autenticar con token
+⏳ Push del codigo
+⏳ Conectar Netlify con GitHub
+
+
+ENLACES UTILES
+==============
+
+Tu GitHub:
+https://github.com/creditos2025ai-debug
+
+Crear repo:
+https://github.com/new
+
+Tokens de acceso:
+https://github.com/settings/tokens
+
+Tu sitio Netlify:
+https://fancy-dragon-323516.netlify.app/
+
+Panel Netlify:
+https://app.netlify.com/sites/fancy-dragon-323516/
+
+
+================================================================================
+           RESUMEN: Crea el repo, genera token, haz push
+================================================================================
+
