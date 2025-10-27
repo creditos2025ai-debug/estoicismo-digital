@@ -1,0 +1,37 @@
+# Netlify configuration file
+
+[build]
+  # No build command needed for static site
+  publish = "."
+
+[[redirects]]
+  # Redirect 404s to index page (SPA fallback)
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[build.environment]
+  # Environment variables (if needed in the future)
+  NODE_VERSION = "18"
+
+[[headers]]
+  # Cache static assets
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  # Cache images and fonts for longer
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  # Cache JS and CSS
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+

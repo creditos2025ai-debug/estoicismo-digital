@@ -1,0 +1,26 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Log files
+*.log
+npm-debug.log*
+
+# Temporary files
+*.tmp
+*.bak
+~*
+
+# Netlify
+.netlify/
+
+# Lock files (if using npm/yarn in the future)
+package-lock.json
+yarn.lock
+

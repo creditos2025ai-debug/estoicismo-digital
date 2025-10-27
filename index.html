@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Estoicismo Digital - Inicio</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#6B7A6A",
+            "background-light": "#F8F8F4",
+            "background-dark": "#1A1A18",
+            "surface-light": "#FFFFFF",
+            "surface-dark": "#2C2C2A",
+            "text-light-primary": "#333333",
+            "text-dark-primary": "#E0E0DC",
+            "text-light-secondary": "#6B7A6A",
+            "text-dark-secondary": "#A3B8A2",
+            "border-light": "#EAEAE0",
+            "border-dark": "#3D3D3A",
+          },
+          fontFamily: {
+            display: ["Newsreader", "serif"],
+            sans: ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.75rem",
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-sans">
+<div class="container mx-auto max-w-md p-4 pb-24">
+<header class="flex justify-between items-center mb-6 pt-4">
+<h1 class="text-4xl font-bold text-text-light-primary dark:text-text-dark-primary font-display">Estoicismo</h1>
+<button onclick="toggleDarkMode()" class="text-text-light-secondary dark:text-text-dark-secondary p-2 hover:bg-surface-light dark:hover:bg-surface-dark rounded-full transition-colors">
+<span class="material-icons" id="theme-icon">dark_mode</span>
+</button>
+</header>
+
+<!-- Today's Quote -->
+<section class="mb-8 bg-primary/10 dark:bg-primary/20 p-6 rounded-2xl border border-border-light dark:border-border-dark">
+<p class="text-xs uppercase tracking-wide text-text-light-secondary dark:text-text-dark-secondary mb-2">Cita del día</p>
+<p class="font-display text-xl italic text-text-light-primary dark:text-text-dark-primary mb-3">"No te preocupes por el futuro, cuando llegue serás la misma persona que es capaz de enfrentar el presente."</p>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">— Séneca</p>
+</section>
+
+<!-- Stats Overview -->
+<section class="mb-8">
+<h2 class="text-2xl font-bold mb-4 text-text-light-primary dark:text-text-dark-primary font-display">Tu Progreso</h2>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl border border-border-light dark:border-border-dark">
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-1">Racha actual</p>
+<p class="text-3xl font-bold text-primary font-display" id="current-streak">0</p>
+<p class="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">días consecutivos</p>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl border border-border-light dark:border-border-dark">
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-1">Entradas totales</p>
+<p class="text-3xl font-bold text-primary font-display" id="total-entries">0</p>
+<p class="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">reflexiones</p>
+</div>
+</div>
+</section>
+
+<!-- Quick Actions -->
+<section class="mb-8">
+<h2 class="text-2xl font-bold mb-4 text-text-light-primary dark:text-text-dark-primary font-display">Acciones Rápidas</h2>
+<div class="grid grid-cols-2 gap-4">
+<a href="journal.html" class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl flex flex-col items-start aspect-square justify-between border border-border-light dark:border-border-dark hover:border-primary transition-colors">
+<div>
+<div class="w-12 h-12 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mb-3">
+<span class="material-icons text-primary">edit_note</span>
+</div>
+<h3 class="font-bold text-lg text-text-light-primary dark:text-text-dark-primary">Nueva Entrada</h3>
+</div>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Escribe tu reflexión diaria</p>
+</a>
+<a href="practice.html" class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl flex flex-col items-start aspect-square justify-between border border-border-light dark:border-border-dark hover:border-primary transition-colors">
+<div>
+<div class="w-12 h-12 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mb-3">
+<span class="material-icons text-primary">psychology</span>
+</div>
+<h3 class="font-bold text-lg text-text-light-primary dark:text-text-dark-primary">Practicar</h3>
+</div>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Ejercicios de dicotomía del control</p>
+</a>
+</div>
+</section>
+
+<!-- Recent Entries -->
+<section class="mb-8">
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary font-display">Entradas Recientes</h2>
+<a href="journal.html" class="text-sm text-primary font-medium">Ver todas</a>
+</div>
+<div id="recent-entries" class="space-y-3">
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-border-light dark:border-border-dark text-center">
+<p class="text-text-light-secondary dark:text-text-dark-secondary">No hay entradas todavía. ¡Comienza tu práctica!</p>
+</div>
+</div>
+</section>
+</div>
+
+<!-- Bottom Navigation -->
+<footer class="fixed bottom-0 left-0 right-0 bg-background-light dark:bg-background-dark border-t border-border-light dark:border-border-dark">
+<nav class="container mx-auto max-w-md flex justify-around items-center h-20">
+<a class="flex flex-col items-center text-primary" href="index.html">
+<span class="material-icons">home</span>
+<span class="text-xs font-bold">Inicio</span>
+</a>
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="learn.html">
+<span class="material-icons">book</span>
+<span class="text-xs">Aprender</span>
+</a>
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="practice.html">
+<span class="material-icons">psychology</span>
+<span class="text-xs">Practicar</span>
+</a>
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="journal.html">
+<span class="material-icons">edit_note</span>
+<span class="text-xs">Diario</span>
+</a>
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="progress.html">
+<span class="material-icons">trending_up</span>
+<span class="text-xs">Progreso</span>
+</a>
+</nav>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+// Load stats on page load
+document.addEventListener('DOMContentLoaded', () => {
+  loadStats();
+  loadRecentEntries();
+});
+
+function loadStats() {
+  const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+  document.getElementById('total-entries').textContent = entries.length;
+  
+  // Calculate streak
+  const streak = calculateStreak(entries);
+  document.getElementById('current-streak').textContent = streak;
+}
+
+function calculateStreak(entries) {
+  if (entries.length === 0) return 0;
+  
+  const sortedEntries = entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+  let streak = 0;
+  let currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+  
+  for (let entry of sortedEntries) {
+    const entryDate = new Date(entry.date);
+    entryDate.setHours(0, 0, 0, 0);
+    
+    const diffDays = Math.floor((currentDate - entryDate) / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === streak) {
+      streak++;
+      currentDate.setDate(currentDate.getDate() - 1);
+    } else if (diffDays > streak) {
+      break;
+    }
+  }
+  
+  return streak;
+}
+
+function loadRecentEntries() {
+  const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+  const recentContainer = document.getElementById('recent-entries');
+  
+  if (entries.length === 0) return;
+  
+  const recentEntries = entries.slice(-3).reverse();
+  recentContainer.innerHTML = recentEntries.map(entry => `
+    <div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-border-light dark:border-border-dark">
+      <div class="flex justify-between items-start mb-2">
+        <h3 class="font-bold text-text-light-primary dark:text-text-dark-primary">${entry.title || 'Reflexión'}</h3>
+        <p class="text-xs text-text-light-secondary dark:text-text-dark-secondary">${formatDate(entry.date)}</p>
+      </div>
+      <p class="text-sm text-text-light-secondary dark:text-text-dark-secondary line-clamp-2">${entry.content}</p>
+    </div>
+  `).join('');
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const options = { day: 'numeric', month: 'short', year: 'numeric' };
+  return date.toLocaleDateString('es-ES', options);
+}
+</script>
+</body>
+</html>
+

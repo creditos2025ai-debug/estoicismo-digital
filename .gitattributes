@@ -1,0 +1,50 @@
+# Git attributes for Estoicismo Digital
+
+# Auto detect text files and normalize line endings to LF
+* text=auto
+
+# Source code
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.toml text eol=lf
+
+# Scripts
+*.sh text eol=lf
+*.ps1 text eol=crlf
+
+# Documentation
+*.txt text eol=lf
+README* text eol=lf
+LICENSE* text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+
+# Archives
+*.zip binary
+*.tar binary
+*.gz binary
+*.7z binary
+
+# Documents
+*.pdf binary
+*.doc binary
+*.docx binary
+*.odt binary
+
+# Export ignore (archivos que no se incluirán en export)
+.gitattributes export-ignore
+.gitignore export-ignore
+

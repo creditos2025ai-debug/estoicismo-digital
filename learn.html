@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aprender - Estoicismo Digital</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#6B7A6A",
+            "background-light": "#F8F8F4",
+            "background-dark": "#1A1A18",
+            "surface-light": "#FFFFFF",
+            "surface-dark": "#2C2C2A",
+            "text-light-primary": "#333333",
+            "text-dark-primary": "#E0E0DC",
+            "text-light-secondary": "#6B7A6A",
+            "text-dark-secondary": "#A3B8A2",
+            "border-light": "#EAEAE0",
+            "border-dark": "#3D3D3A",
+          },
+          fontFamily: {
+            display: ["Newsreader", "serif"],
+            sans: ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.75rem",
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-sans">
+<div class="container mx-auto max-w-md p-4 pb-24">
+<header class="flex justify-between items-center mb-6 pt-4">
+<h1 class="text-4xl font-bold text-text-light-primary dark:text-text-dark-primary font-display">Aprender</h1>
+<button onclick="toggleDarkMode()" class="text-text-light-secondary dark:text-text-dark-secondary p-2 hover:bg-surface-light dark:hover:bg-surface-dark rounded-full transition-colors">
+<span class="material-icons" id="theme-icon-learn">dark_mode</span>
+</button>
+</header>
+
+<!-- Daily Quote -->
+<section class="mb-8">
+<div class="bg-primary/10 dark:bg-primary/20 p-6 rounded-2xl border border-border-light dark:border-border-dark">
+<p class="text-xs uppercase tracking-wide text-text-light-secondary dark:text-text-dark-secondary mb-3">Reflexión del día</p>
+<p class="font-display text-xl italic text-text-light-primary dark:text-text-dark-primary mb-4" id="daily-quote">Cargando cita...</p>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary" id="quote-author">— Filósofo estoico</p>
+<button onclick="getNewQuote()" class="mt-4 text-sm text-primary font-medium flex items-center gap-1">
+<span class="material-icons text-sm">refresh</span>
+Nueva cita
+</button>
+</div>
+</section>
+
+<!-- Principles Section -->
+<section class="mb-8">
+<h2 class="text-2xl font-bold mb-4 text-text-light-primary dark:text-text-dark-primary font-display">Principios Fundamentales</h2>
+<div class="space-y-4">
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl border border-border-light dark:border-border-dark">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center shrink-0">
+<span class="material-icons text-primary">shield</span>
+</div>
+<div>
+<h3 class="font-bold text-lg text-text-light-primary dark:text-text-dark-primary mb-2">Dicotomía del Control</h3>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Distingue entre lo que está bajo tu control (tus pensamientos, acciones y juicios) y lo que no lo está (opiniones ajenas, eventos externos).</p>
+</div>
+</div>
+</div>
+
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl border border-border-light dark:border-border-dark">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center shrink-0">
+<span class="material-icons text-primary">nature_people</span>
+</div>
+<div>
+<h3 class="font-bold text-lg text-text-light-primary dark:text-text-dark-primary mb-2">Vivir de acuerdo con la Naturaleza</h3>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Aceptar el orden natural de las cosas y actuar conforme a la razón, nuestra cualidad distintiva como seres humanos.</p>
+</div>
+</div>
+</div>
+
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl border border-border-light dark:border-border-dark">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center shrink-0">
+<span class="material-icons text-primary">stars</span>
+</div>
+<div>
+<h3 class="font-bold text-lg text-text-light-primary dark:text-text-dark-primary mb-2">Las Cuatro Virtudes</h3>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-2">Las virtudes cardinales del estoicismo:</p>
+<ul class="text-sm text-text-light-secondary dark:text-text-dark-secondary list-disc list-inside space-y-1 ml-2">
+<li><strong>Sabiduría:</strong> Conocimiento y buen juicio</li>
+<li><strong>Coraje:</strong> Valentía ante la adversidad</li>
+<li><strong>Justicia:</strong> Equidad hacia los demás</li>
+<li><strong>Templanza:</strong> Autocontrol y moderación</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl border border-border-light dark:border-border-dark">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center shrink-0">
+<span class="material-icons text-primary">wb_twilight</span>
+</div>
+<div>
+<h3 class="font-bold text-lg text-text-light-primary dark:text-text-dark-primary mb-2">Memento Mori</h3>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Recuerda que eres mortal. Esta reflexión no busca deprimirte, sino ayudarte a valorar el presente y vivir con propósito.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Philosophers Section -->
+<section class="mb-8">
+<h2 class="text-2xl font-bold mb-4 text-text-light-primary dark:text-text-dark-primary font-display">Filósofos Principales</h2>
+<div class="space-y-4">
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl border border-border-light dark:border-border-dark">
+<h3 class="font-bold text-lg text-text-light-primary dark:text-text-dark-primary mb-2">Marco Aurelio (121-180 d.C.)</h3>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-2">Emperador romano y autor de "Meditaciones"</p>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary italic">"No tienes el control sobre lo que otros piensan de ti, pero sí sobre cómo reaccionas a ello."</p>
+</div>
+
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl border border-border-light dark:border-border-dark">
+<h3 class="font-bold text-lg text-text-light-primary dark:text-text-dark-primary mb-2">Epicteto (50-135 d.C.)</h3>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-2">Ex-esclavo y maestro de filosofía</p>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary italic">"No son las cosas las que nos perturban, sino las opiniones que tenemos sobre ellas."</p>
+</div>
+
+<div class="bg-surface-light dark:bg-surface-dark p-5 rounded-xl border border-border-light dark:border-border-dark">
+<h3 class="font-bold text-lg text-text-light-primary dark:text-text-dark-primary mb-2">Séneca (4 a.C.-65 d.C.)</h3>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-2">Filósofo, dramaturgo y consejero</p>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary italic">"No es porque las cosas son difíciles que no nos atrevemos, es porque no nos atrevemos que son difíciles."</p>
+</div>
+</div>
+</section>
+
+<!-- Daily Practices -->
+<section class="mb-8">
+<h2 class="text-2xl font-bold mb-4 text-text-light-primary dark:text-text-dark-primary font-display">Prácticas Diarias</h2>
+<div class="space-y-3">
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<span class="material-icons text-primary">wb_sunny</span>
+<div>
+<h4 class="font-bold text-text-light-primary dark:text-text-dark-primary">Meditación Matutina</h4>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Prepárate mentalmente para los retos del día</p>
+</div>
+</div>
+</div>
+
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<span class="material-icons text-primary">nightlight</span>
+<div>
+<h4 class="font-bold text-text-light-primary dark:text-text-dark-primary">Revisión Nocturna</h4>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Reflexiona sobre tus acciones y aprendizajes</p>
+</div>
+</div>
+</div>
+
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<span class="material-icons text-primary">psychology</span>
+<div>
+<h4 class="font-bold text-text-light-primary dark:text-text-dark-primary">Visualización Negativa</h4>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Imagina la pérdida para valorar lo que tienes</p>
+</div>
+</div>
+</div>
+
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<span class="material-icons text-primary">favorite</span>
+<div>
+<h4 class="font-bold text-text-light-primary dark:text-text-dark-primary">Gratitud</h4>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Aprecia las cosas simples de la vida</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Quick Actions -->
+<section class="mb-8">
+<h2 class="text-2xl font-bold mb-4 text-text-light-primary dark:text-text-dark-primary font-display">Empieza a Practicar</h2>
+<div class="grid grid-cols-2 gap-4">
+<a href="journal.html" class="bg-primary text-white p-4 rounded-xl flex flex-col items-center text-center hover:bg-primary/90 transition-colors">
+<span class="material-icons text-4xl mb-2">edit_note</span>
+<span class="font-bold">Escribir Diario</span>
+</a>
+<a href="practice.html" class="bg-primary text-white p-4 rounded-xl flex flex-col items-center text-center hover:bg-primary/90 transition-colors">
+<span class="material-icons text-4xl mb-2">psychology</span>
+<span class="font-bold">Ejercicio</span>
+</a>
+</div>
+</section>
+</div>
+
+<!-- Bottom Navigation -->
+<footer class="fixed bottom-0 left-0 right-0 bg-background-light dark:bg-background-dark border-t border-border-light dark:border-border-dark">
+<nav class="container mx-auto max-w-md flex justify-around items-center h-20">
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="index.html">
+<span class="material-icons">home</span>
+<span class="text-xs">Inicio</span>
+</a>
+<a class="flex flex-col items-center text-primary" href="learn.html">
+<span class="material-icons">book</span>
+<span class="text-xs font-bold">Aprender</span>
+</a>
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="practice.html">
+<span class="material-icons">psychology</span>
+<span class="text-xs">Practicar</span>
+</a>
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="journal.html">
+<span class="material-icons">edit_note</span>
+<span class="text-xs">Diario</span>
+</a>
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="progress.html">
+<span class="material-icons">trending_up</span>
+<span class="text-xs">Progreso</span>
+</a>
+</nav>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+const stoicQuotes = [
+  {
+    quote: "No tienes el control sobre lo que otros piensan de ti, pero sí sobre cómo reaccionas a ello.",
+    author: "Marco Aurelio"
+  },
+  {
+    quote: "No son las cosas las que nos perturban, sino las opiniones que tenemos sobre ellas.",
+    author: "Epicteto"
+  },
+  {
+    quote: "La felicidad de tu vida depende de la calidad de tus pensamientos.",
+    author: "Marco Aurelio"
+  },
+  {
+    quote: "No es porque las cosas son difíciles que no nos atrevemos, es porque no nos atrevemos que son difíciles.",
+    author: "Séneca"
+  },
+  {
+    quote: "El obstáculo para la acción avanza la acción. Lo que se interpone en el camino se convierte en el camino.",
+    author: "Marco Aurelio"
+  },
+  {
+    quote: "Puedes sufrir toda la vida o puedes aprender a sufrir por un breve momento y seguir adelante.",
+    author: "Epicteto"
+  },
+  {
+    quote: "La sabiduría consiste en saber qué hacer a continuación; la virtud es hacerlo.",
+    author: "David Starr Jordan"
+  },
+  {
+    quote: "Si no tienes tiempo para lo importante, tendrás que hacerlo para lo urgente.",
+    author: "Séneca"
+  },
+  {
+    quote: "Los días son costosos. Cuando has gastado uno de forma imprudente, nunca lo recuperarás.",
+    author: "Séneca"
+  },
+  {
+    quote: "Empieza por lo necesario, luego haz lo posible y de repente estarás haciendo lo imposible.",
+    author: "Marco Aurelio"
+  }
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadDailyQuote();
+});
+
+function loadDailyQuote() {
+  // Get a consistent quote for the day (based on date)
+  const today = new Date().toDateString();
+  const stored = localStorage.getItem('dailyQuoteDate');
+  
+  if (stored === today) {
+    const storedQuote = localStorage.getItem('dailyQuote');
+    if (storedQuote) {
+      const quote = JSON.parse(storedQuote);
+      displayQuote(quote);
+      return;
+    }
+  }
+  
+  // Get new quote
+  getNewQuote();
+}
+
+function getNewQuote() {
+  const randomIndex = Math.floor(Math.random() * stoicQuotes.length);
+  const quote = stoicQuotes[randomIndex];
+  
+  // Store for today
+  localStorage.setItem('dailyQuoteDate', new Date().toDateString());
+  localStorage.setItem('dailyQuote', JSON.stringify(quote));
+  
+  displayQuote(quote);
+}
+
+function displayQuote(quote) {
+  document.getElementById('daily-quote').textContent = `"${quote.quote}"`;
+  document.getElementById('quote-author').textContent = `— ${quote.author}`;
+}
+</script>
+</body>
+</html>
+

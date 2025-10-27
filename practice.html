@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Practicar - Estoicismo Digital</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#6B7A6A",
+            "background-light": "#F8F8F4",
+            "background-dark": "#1A1A18",
+            "surface-light": "#FFFFFF",
+            "surface-dark": "#2C2C2A",
+            "text-light-primary": "#333333",
+            "text-dark-primary": "#E0E0DC",
+            "text-light-secondary": "#6B7A6A",
+            "text-dark-secondary": "#A3B8A2",
+            "border-light": "#EAEAE0",
+            "border-dark": "#3D3D3A",
+            "column-control": "#6B7A6A",
+            "column-partial": "#B5C4B3",
+            "column-none": "#D8D8D0",
+            "column-control-dark": "#4A5349",
+            "column-partial-dark": "#3D443C",
+            "column-none-dark": "#35342F"
+          },
+          fontFamily: {
+            display: ["Newsreader", "serif"],
+            sans: ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.75rem",
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+    .dragging {
+      opacity: 0.5;
+    }
+    .drag-over {
+      border-color: #6B7A6A !important;
+      background-color: rgba(107, 122, 106, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-sans">
+<div class="container mx-auto max-w-md p-4 pb-24">
+<header class="flex items-center mb-6 pt-4">
+<a href="index.html" class="text-text-light-secondary dark:text-text-dark-secondary p-2 hover:bg-surface-light dark:hover:bg-surface-dark rounded-full transition-colors">
+<span class="material-icons">arrow_back</span>
+</a>
+<h1 class="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary font-display flex-1 text-center">Dicotomía del Control</h1>
+<div class="w-10"></div>
+</header>
+
+<main class="mb-8">
+<!-- Instruction -->
+<div class="mb-6 bg-primary/10 dark:bg-primary/20 p-4 rounded-xl">
+<p class="text-sm text-text-light-primary dark:text-text-dark-primary">
+<strong>Ejercicio estoico:</strong> Identifica qué aspectos de tu preocupación están bajo tu control, cuáles parcialmente, y cuáles están completamente fuera de tu control.
+</p>
+</div>
+
+<!-- Input Area -->
+<h2 class="text-xl font-bold mb-3 text-text-light-primary dark:text-text-dark-primary font-display">¿Qué te preocupa?</h2>
+<textarea id="worry-input" rows="4" placeholder="Ej: 'Estoy preocupado por la próxima presentación en el trabajo. Temo que no le guste a mi jefe y que mis compañeros piensen mal de mí...'" class="w-full mb-4 px-4 py-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary focus:ring-2 focus:ring-primary focus:outline-none resize-none"></textarea>
+
+<button onclick="analyzeWorry()" class="w-full mb-6 py-3 bg-primary rounded-xl text-white font-bold hover:bg-primary/90 transition-colors">
+Analizar mi Preocupación
+</button>
+
+<!-- Draggable Elements Section -->
+<div id="elements-section" class="mb-6 hidden">
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-3">Arrastra cada elemento a su columna correspondiente:</p>
+<div id="draggable-elements" class="flex gap-3 flex-wrap">
+<!-- Elements will be added dynamically -->
+</div>
+</div>
+
+<!-- Columns Section -->
+<div class="space-y-4 mb-6">
+<!-- Column 1: Total Control -->
+<section class="rounded-xl bg-column-control/20 dark:bg-column-control-dark/40 p-4 border-2 border-column-control/40 dark:border-column-control-dark">
+<h3 class="text-base font-bold mb-3 text-text-light-primary dark:text-text-dark-primary flex items-center gap-2">
+<span class="material-icons text-xl text-column-control dark:text-primary">front_hand</span>
+Bajo mi control
+</h3>
+<div id="control-zone" class="min-h-[80px] rounded-lg border-2 border-dashed border-column-control/40 dark:border-column-control-dark/80 bg-surface-light/30 dark:bg-surface-dark/30 p-3">
+<p class="text-sm text-center text-text-light-secondary dark:text-text-dark-secondary" id="control-empty">Suelta aquí los elementos</p>
+<div id="control-items" class="space-y-2"></div>
+</div>
+<!-- Action Plan -->
+<div class="mt-4">
+<h4 class="text-sm font-bold mb-2 text-text-light-primary dark:text-text-dark-primary">Mi Plan de Acción</h4>
+<textarea id="action-plan" rows="3" placeholder="Enumera los pasos concretos que puedes dar..." class="w-full px-3 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary text-sm focus:ring-2 focus:ring-primary focus:outline-none resize-none"></textarea>
+</div>
+</section>
+
+<!-- Column 2: Partial Control -->
+<section class="rounded-xl bg-column-partial/20 dark:bg-column-partial-dark/40 p-4 border-2 border-column-partial/40 dark:border-column-partial-dark">
+<h3 class="text-base font-bold mb-3 text-text-light-primary dark:text-text-dark-primary flex items-center gap-2">
+<span class="material-icons text-xl text-text-light-secondary dark:text-text-dark-secondary">balance</span>
+Control parcial
+</h3>
+<div id="partial-zone" class="min-h-[80px] rounded-lg border-2 border-dashed border-column-partial/60 dark:border-column-partial-dark/80 bg-surface-light/30 dark:bg-surface-dark/30 p-3">
+<p class="text-sm text-center text-text-light-secondary dark:text-text-dark-secondary" id="partial-empty">Suelta aquí los elementos</p>
+<div id="partial-items" class="space-y-2"></div>
+</div>
+</section>
+
+<!-- Column 3: No Control -->
+<section class="rounded-xl bg-column-none/30 dark:bg-column-none-dark/40 p-4 border-2 border-column-none/40 dark:border-column-none-dark">
+<h3 class="text-base font-bold mb-3 text-text-light-primary dark:text-text-dark-primary flex items-center gap-2">
+<span class="material-icons text-xl text-text-light-secondary dark:text-text-dark-secondary">cloud_off</span>
+Fuera de mi control
+</h3>
+<div id="none-zone" class="min-h-[80px] rounded-lg border-2 border-dashed border-column-none/60 dark:border-column-none-dark/80 bg-surface-light/30 dark:bg-surface-dark/30 p-3">
+<p class="text-sm text-center text-text-light-secondary dark:text-text-dark-secondary" id="none-empty">Suelta aquí los elementos</p>
+<div id="none-items" class="space-y-2"></div>
+</div>
+</section>
+</div>
+
+<!-- Save Button -->
+<button onclick="saveExercise()" id="save-btn" class="w-full py-4 bg-primary rounded-xl text-white font-bold shadow-lg hover:bg-primary/90 transition-colors hidden">
+Guardar Reflexión
+</button>
+</main>
+</div>
+
+<!-- Bottom Navigation -->
+<footer class="fixed bottom-0 left-0 right-0 bg-background-light dark:bg-background-dark border-t border-border-light dark:border-border-dark">
+<nav class="container mx-auto max-w-md flex justify-around items-center h-20">
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="index.html">
+<span class="material-icons">home</span>
+<span class="text-xs">Inicio</span>
+</a>
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="learn.html">
+<span class="material-icons">book</span>
+<span class="text-xs">Aprender</span>
+</a>
+<a class="flex flex-col items-center text-primary" href="practice.html">
+<span class="material-icons">psychology</span>
+<span class="text-xs font-bold">Practicar</span>
+</a>
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="journal.html">
+<span class="material-icons">edit_note</span>
+<span class="text-xs">Diario</span>
+</a>
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="progress.html">
+<span class="material-icons">trending_up</span>
+<span class="text-xs">Progreso</span>
+</a>
+</nav>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+let currentExercise = {
+  worry: '',
+  elements: [],
+  control: [],
+  partial: [],
+  none: [],
+  actionPlan: ''
+};
+
+// Initialize drop zones when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  initializeDropZones();
+});
+
+function initializeDropZones() {
+  ['control-zone', 'partial-zone', 'none-zone'].forEach(zoneId => {
+    const zone = document.getElementById(zoneId);
+    
+    if (!zone) {
+      console.error(`Zone ${zoneId} not found`);
+      return;
+    }
+    
+    zone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      zone.classList.add('drag-over');
+    });
+    
+    zone.addEventListener('dragleave', (e) => {
+      e.stopPropagation();
+      zone.classList.remove('drag-over');
+    });
+    
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      zone.classList.remove('drag-over');
+      
+      const elementId = e.dataTransfer.getData('text');
+      const element = document.getElementById(elementId);
+      
+      if (element) {
+        element.classList.remove('dragging');
+        
+        // Remove from previous zone
+        const previousZone = element.getAttribute('data-zone');
+        if (previousZone) {
+          const zoneType = previousZone.replace('-zone', '');
+          currentExercise[zoneType] = currentExercise[zoneType].filter(id => id !== elementId);
+        }
+        
+        // Add to new zone
+        const zoneType = zoneId.replace('-zone', '');
+        const itemsContainer = document.getElementById(`${zoneType}-items`);
+        
+        itemsContainer.appendChild(element);
+        element.setAttribute('data-zone', zoneId);
+        
+        // Update current exercise
+        if (!currentExercise[zoneType].includes(elementId)) {
+          currentExercise[zoneType].push(elementId);
+        }
+        
+        // Update empty messages
+        updateEmptyMessages();
+      }
+    });
+  });
+}
+
+function analyzeWorry() {
+  const worry = document.getElementById('worry-input').value.trim();
+  
+  if (!worry) {
+    alert('Por favor, describe tu preocupación primero.');
+    return;
+  }
+  
+  currentExercise.worry = worry;
+  
+  // Generate elements from the worry text
+  const elements = generateElements(worry);
+  currentExercise.elements = elements;
+  
+  displayElements(elements);
+  document.getElementById('elements-section').classList.remove('hidden');
+  document.getElementById('save-btn').classList.remove('hidden');
+}
+
+function generateElements(text) {
+  // Simple AI-like extraction - in reality, this would be more sophisticated
+  const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+  
+  return sentences.map((sentence, index) => ({
+    id: `element-${index}`,
+    text: sentence.trim(),
+    zone: null
+  }));
+}
+
+function displayElements(elements) {
+  const container = document.getElementById('draggable-elements');
+  container.innerHTML = elements.map(element => `
+    <div
+      id="${element.id}"
+      draggable="true"
+      ondragstart="drag(event)"
+      ondragend="dragEnd(event)"
+      class="px-4 py-2 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg text-sm text-text-light-primary dark:text-text-dark-primary cursor-grab active:cursor-grabbing shadow-sm"
+    >
+      ${element.text}
+    </div>
+  `).join('');
+}
+
+function drag(event) {
+  event.dataTransfer.effectAllowed = 'move';
+  event.dataTransfer.setData('text/plain', event.target.id);
+  event.target.classList.add('dragging');
+}
+
+function dragEnd(event) {
+  event.target.classList.remove('dragging');
+}
+
+function updateEmptyMessages() {
+  ['control', 'partial', 'none'].forEach(type => {
+    const emptyMsg = document.getElementById(`${type}-empty`);
+    const itemsContainer = document.getElementById(`${type}-items`);
+    
+    if (itemsContainer.children.length > 0) {
+      emptyMsg.classList.add('hidden');
+    } else {
+      emptyMsg.classList.remove('hidden');
+    }
+  });
+}
+
+function saveExercise() {
+  currentExercise.actionPlan = document.getElementById('action-plan').value;
+  currentExercise.date = new Date().toISOString();
+  
+  // Get text of elements in each zone
+  const getElementsText = (ids) => ids.map(id => {
+    const element = document.getElementById(id);
+    return element ? element.textContent.trim() : '';
+  });
+  
+  const exercise = {
+    id: Date.now().toString(),
+    date: currentExercise.date,
+    worry: currentExercise.worry,
+    control: getElementsText(currentExercise.control),
+    partial: getElementsText(currentExercise.partial),
+    none: getElementsText(currentExercise.none),
+    actionPlan: currentExercise.actionPlan
+  };
+  
+  // Save to localStorage
+  const exercises = JSON.parse(localStorage.getItem('controlExercises') || '[]');
+  exercises.push(exercise);
+  localStorage.setItem('controlExercises', JSON.stringify(exercises));
+  
+  // Also save as journal entry
+  const journalEntry = {
+    id: exercise.id,
+    type: 'control',
+    title: 'Ejercicio: Dicotomía del Control',
+    content: `Preocupación: ${exercise.worry}\n\nBajo mi control: ${exercise.control.join(', ')}\n\nPlan de acción: ${exercise.actionPlan}`,
+    date: exercise.date
+  };
+  
+  const journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+  journalEntries.push(journalEntry);
+  localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
+  
+  alert('¡Ejercicio guardado! Has completado una reflexión estoica.');
+  
+  // Reset
+  setTimeout(() => {
+    window.location.href = 'index.html';
+  }, 1000);
+}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Diario - Estoicismo Digital</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#6B7A6A",
+            "background-light": "#F8F8F4",
+            "background-dark": "#1A1A18",
+            "surface-light": "#FFFFFF",
+            "surface-dark": "#2C2C2A",
+            "text-light-primary": "#333333",
+            "text-dark-primary": "#E0E0DC",
+            "text-light-secondary": "#6B7A6A",
+            "text-dark-secondary": "#A3B8A2",
+            "border-light": "#EAEAE0",
+            "border-dark": "#3D3D3A",
+          },
+          fontFamily: {
+            display: ["Newsreader", "serif"],
+            sans: ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.75rem",
+          },
+        },
+      },
+    };
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-sans">
+<div class="container mx-auto max-w-md p-4 pb-24">
+<header class="flex justify-between items-center mb-6 pt-4">
+<h1 class="text-4xl font-bold text-text-light-primary dark:text-text-dark-primary font-display">Diario</h1>
+<button onclick="showCalendar()" class="text-text-light-secondary dark:text-text-dark-secondary p-2 hover:bg-surface-light dark:hover:bg-surface-dark rounded-full transition-colors">
+<span class="material-icons">calendar_today</span>
+</button>
+</header>
+
+<!-- Search Bar -->
+<div class="relative mb-8">
+<span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-text-light-secondary dark:text-text-dark-secondary">
+        search
+      </span>
+<input id="search-input" onkeyup="searchEntries()" class="w-full pl-10 pr-4 py-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary focus:ring-2 focus:ring-primary focus:outline-none" placeholder="Buscar entradas" type="text"/>
+</div>
+
+<!-- New Entry Section -->
+<section class="mb-8">
+<h2 class="text-2xl font-bold mb-4 text-text-light-primary dark:text-text-dark-primary font-display">Nueva Entrada</h2>
+<div class="grid grid-cols-2 gap-4">
+<button onclick="openNewEntry('custom')" class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl flex flex-col items-start aspect-square justify-between border border-border-light dark:border-border-dark hover:border-primary transition-colors text-left">
+<div>
+<div class="w-10 h-10 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mb-4">
+<span class="material-icons text-primary">edit</span>
+</div>
+<h3 class="font-bold text-lg text-text-light-primary dark:text-text-dark-primary">Entrada Libre</h3>
+</div>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Escribe sin estructura</p>
+</button>
+<button onclick="openNewEntry('morning')" class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl flex flex-col items-start aspect-square justify-between border border-border-light dark:border-border-dark hover:border-primary transition-colors text-left">
+<div>
+<div class="w-10 h-10 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mb-4">
+<span class="material-icons text-primary">wb_sunny</span>
+</div>
+<h3 class="font-bold text-lg text-text-light-primary dark:text-text-dark-primary">Reflexión Matutina</h3>
+</div>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Empieza el día con intención</p>
+</button>
+<button onclick="openNewEntry('evening')" class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl flex flex-col items-start aspect-square justify-between border border-border-light dark:border-border-dark hover:border-primary transition-colors text-left">
+<div>
+<div class="w-10 h-10 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mb-4">
+<span class="material-icons text-primary">nightlight</span>
+</div>
+<h3 class="font-bold text-lg text-text-light-primary dark:text-text-dark-primary">Reflexión Nocturna</h3>
+</div>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Revisa tu día</p>
+</button>
+<button onclick="openNewEntry('gratitude')" class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl flex flex-col items-start aspect-square justify-between border border-border-light dark:border-border-dark hover:border-primary transition-colors text-left">
+<div>
+<div class="w-10 h-10 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mb-4">
+<span class="material-icons text-primary">favorite</span>
+</div>
+<h3 class="font-bold text-lg text-text-light-primary dark:text-text-dark-primary">Gratitud</h3>
+</div>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Por qué estar agradecido</p>
+</button>
+</div>
+</section>
+
+<!-- Recent Entries -->
+<section class="mb-8">
+<h2 class="text-2xl font-bold mb-4 text-text-light-primary dark:text-text-dark-primary font-display">Todas las Entradas</h2>
+<div id="entries-list" class="space-y-3">
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-border-light dark:border-border-dark text-center">
+<p class="text-text-light-secondary dark:text-text-dark-secondary">No hay entradas todavía. ¡Comienza tu práctica!</p>
+</div>
+</div>
+</section>
+</div>
+
+<!-- Bottom Navigation -->
+<footer class="fixed bottom-0 left-0 right-0 bg-background-light dark:bg-background-dark border-t border-border-light dark:border-border-dark">
+<nav class="container mx-auto max-w-md flex justify-around items-center h-20">
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="index.html">
+<span class="material-icons">home</span>
+<span class="text-xs">Inicio</span>
+</a>
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="learn.html">
+<span class="material-icons">book</span>
+<span class="text-xs">Aprender</span>
+</a>
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="practice.html">
+<span class="material-icons">psychology</span>
+<span class="text-xs">Practicar</span>
+</a>
+<a class="flex flex-col items-center text-primary" href="journal.html">
+<span class="material-icons">edit_note</span>
+<span class="text-xs font-bold">Diario</span>
+</a>
+<a class="flex flex-col items-center text-text-light-secondary dark:text-text-dark-secondary" href="progress.html">
+<span class="material-icons">trending_up</span>
+<span class="text-xs">Progreso</span>
+</a>
+</nav>
+</footer>
+
+<!-- Modal for New Entry -->
+<div id="entry-modal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-end justify-center">
+<div class="bg-background-light dark:bg-background-dark w-full max-w-md rounded-t-3xl p-6 max-h-[90vh] overflow-y-auto">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-2xl font-bold text-text-light-primary dark:text-text-dark-primary font-display" id="modal-title">Nueva Entrada</h3>
+<button onclick="closeModal()" class="text-text-light-secondary dark:text-text-dark-secondary">
+<span class="material-icons">close</span>
+</button>
+</div>
+<div id="entry-prompts" class="mb-4"></div>
+<form onsubmit="saveEntry(event)">
+<input type="hidden" id="entry-type" />
+<input type="hidden" id="entry-id" />
+<input id="entry-title" type="text" placeholder="Título (opcional)" class="w-full mb-4 px-4 py-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary focus:ring-2 focus:ring-primary focus:outline-none" />
+<textarea id="entry-content" rows="10" placeholder="Escribe aquí..." class="w-full mb-4 px-4 py-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl text-text-light-primary dark:text-text-dark-primary placeholder-text-light-secondary dark:placeholder-text-dark-secondary focus:ring-2 focus:ring-primary focus:outline-none resize-none" required></textarea>
+<div class="flex gap-3">
+<button type="button" onclick="closeModal()" class="flex-1 py-3 bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl text-text-light-primary dark:text-text-dark-primary font-medium">Cancelar</button>
+<button type="submit" class="flex-1 py-3 bg-primary rounded-xl text-white font-bold">Guardar</button>
+</div>
+</form>
+</div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+const entryPrompts = {
+  custom: {
+    title: 'Entrada Libre',
+    prompts: []
+  },
+  morning: {
+    title: 'Reflexión Matutina',
+    prompts: [
+      '¿Qué obstáculos puedo encontrar hoy?',
+      '¿Cómo puedo ser virtuoso hoy?',
+      '¿Qué está bajo mi control hoy?'
+    ]
+  },
+  evening: {
+    title: 'Reflexión Nocturna',
+    prompts: [
+      '¿Qué hice bien hoy?',
+      '¿Qué podría mejorar?',
+      '¿Actué conforme a mis valores?'
+    ]
+  },
+  gratitude: {
+    title: 'Gratitud',
+    prompts: [
+      '¿Por qué estoy agradecido hoy?',
+      '¿Qué simple placer disfruté?',
+      '¿Quién me ayudó hoy?'
+    ]
+  }
+};
+
+document.addEventListener('DOMContentLoaded', loadEntries);
+
+function openNewEntry(type) {
+  const modal = document.getElementById('entry-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const entryType = document.getElementById('entry-type');
+  const promptsContainer = document.getElementById('entry-prompts');
+  
+  modalTitle.textContent = entryPrompts[type].title;
+  entryType.value = type;
+  
+  if (entryPrompts[type].prompts.length > 0) {
+    promptsContainer.innerHTML = `
+      <div class="bg-primary/10 dark:bg-primary/20 p-4 rounded-xl mb-4">
+        <p class="font-bold text-text-light-primary dark:text-text-dark-primary mb-2">Preguntas guía:</p>
+        <ul class="list-disc list-inside space-y-1 text-sm text-text-light-secondary dark:text-text-dark-secondary">
+          ${entryPrompts[type].prompts.map(p => `<li>${p}</li>`).join('')}
+        </ul>
+      </div>
+    `;
+  } else {
+    promptsContainer.innerHTML = '';
+  }
+  
+  document.getElementById('entry-title').value = '';
+  document.getElementById('entry-content').value = '';
+  document.getElementById('entry-id').value = '';
+  
+  modal.classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('entry-modal').classList.add('hidden');
+}
+
+function saveEntry(event) {
+  event.preventDefault();
+  
+  const id = document.getElementById('entry-id').value || Date.now().toString();
+  const type = document.getElementById('entry-type').value;
+  const title = document.getElementById('entry-title').value || entryPrompts[type].title;
+  const content = document.getElementById('entry-content').value;
+  
+  const entry = {
+    id,
+    type,
+    title,
+    content,
+    date: new Date().toISOString()
+  };
+  
+  const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+  const existingIndex = entries.findIndex(e => e.id === id);
+  
+  if (existingIndex >= 0) {
+    entries[existingIndex] = entry;
+  } else {
+    entries.push(entry);
+  }
+  
+  localStorage.setItem('journalEntries', JSON.stringify(entries));
+  
+  closeModal();
+  loadEntries();
+}
+
+function loadEntries() {
+  const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+  const container = document.getElementById('entries-list');
+  
+  if (entries.length === 0) {
+    container.innerHTML = `
+      <div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-border-light dark:border-border-dark text-center">
+        <p class="text-text-light-secondary dark:text-text-dark-secondary">No hay entradas todavía. ¡Comienza tu práctica!</p>
+      </div>
+    `;
+    return;
+  }
+  
+  const sortedEntries = entries.sort((a, b) => new Date(b.date) - new Date(a.date));
+  
+  container.innerHTML = sortedEntries.map(entry => `
+    <div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-border-light dark:border-border-dark">
+      <div class="flex justify-between items-start mb-2">
+        <h3 class="font-bold text-text-light-primary dark:text-text-dark-primary flex-1">${entry.title}</h3>
+        <div class="flex gap-2 ml-2">
+          <button onclick="editEntry('${entry.id}')" class="text-text-light-secondary dark:text-text-dark-secondary">
+            <span class="material-icons text-sm">edit</span>
+          </button>
+          <button onclick="deleteEntry('${entry.id}')" class="text-text-light-secondary dark:text-text-dark-secondary">
+            <span class="material-icons text-sm">delete</span>
+          </button>
+        </div>
+      </div>
+      <p class="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-2">${formatDate(entry.date)}</p>
+      <p class="text-sm text-text-light-secondary dark:text-text-dark-secondary line-clamp-2">${entry.content}</p>
+    </div>
+  `).join('');
+}
+
+function editEntry(id) {
+  const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+  const entry = entries.find(e => e.id === id);
+  
+  if (!entry) return;
+  
+  document.getElementById('entry-id').value = entry.id;
+  document.getElementById('entry-type').value = entry.type;
+  document.getElementById('entry-title').value = entry.title;
+  document.getElementById('entry-content').value = entry.content;
+  document.getElementById('modal-title').textContent = 'Editar Entrada';
+  
+  document.getElementById('entry-modal').classList.remove('hidden');
+}
+
+function deleteEntry(id) {
+  if (!confirm('¿Estás seguro de que quieres eliminar esta entrada?')) return;
+  
+  const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+  const filtered = entries.filter(e => e.id !== id);
+  
+  localStorage.setItem('journalEntries', JSON.stringify(filtered));
+  loadEntries();
+}
+
+function searchEntries() {
+  const searchTerm = document.getElementById('search-input').value.toLowerCase();
+  const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+  
+  const filtered = entries.filter(entry => 
+    entry.title.toLowerCase().includes(searchTerm) ||
+    entry.content.toLowerCase().includes(searchTerm)
+  );
+  
+  const container = document.getElementById('entries-list');
+  
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-border-light dark:border-border-dark text-center">
+        <p class="text-text-light-secondary dark:text-text-dark-secondary">No se encontraron entradas.</p>
+      </div>
+    `;
+    return;
+  }
+  
+  const sortedEntries = filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+  
+  container.innerHTML = sortedEntries.map(entry => `
+    <div class="bg-surface-light dark:bg-surface-dark p-4 rounded-xl border border-border-light dark:border-border-dark">
+      <div class="flex justify-between items-start mb-2">
+        <h3 class="font-bold text-text-light-primary dark:text-text-dark-primary flex-1">${entry.title}</h3>
+        <div class="flex gap-2 ml-2">
+          <button onclick="editEntry('${entry.id}')" class="text-text-light-secondary dark:text-text-dark-secondary">
+            <span class="material-icons text-sm">edit</span>
+          </button>
+          <button onclick="deleteEntry('${entry.id}')" class="text-text-light-secondary dark:text-text-dark-secondary">
+            <span class="material-icons text-sm">delete</span>
+          </button>
+        </div>
+      </div>
+      <p class="text-xs text-text-light-secondary dark:text-text-dark-secondary mb-2">${formatDate(entry.date)}</p>
+      <p class="text-sm text-text-light-secondary dark:text-text-dark-secondary line-clamp-2">${entry.content}</p>
+    </div>
+  `).join('');
+}
+
+function showCalendar() {
+  alert('Función de calendario próximamente');
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const options = { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+  return date.toLocaleDateString('es-ES', options);
+}
+</script>
+</body>
+</html>
+
